@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/v1/users")
@@ -29,5 +31,18 @@ public class UserController {
     public ResponseEntity<User> getUser(@PathVariable("userId") String userId) {
          var user = userService.getUserById(userId);
         return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping
+    public ResponseEntity<List<User>> listUsers() {
+        var users = userService.getUsersList();
+        return  ResponseEntity.ok(users);
+    }
+
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<Map<String, String>> deleteUser(@PathVariable("userId") String userId) {
+         userService.deleteUserById(userId);
+         return ResponseEntity.ok(Map.of("message", "Deleted"));
+
     }
 }

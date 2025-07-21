@@ -1,12 +1,12 @@
-package com.tawangit.agregate.entity.Trialist;
+package com.tawangit.agregate.entity;
 
+import com.tawangit.agregate.controller.trialist.TrialistController;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -34,7 +34,10 @@ public class Trialist {
 
     @Column(name = "position")
     @Enumerated(EnumType.STRING)
-    private TrialistPosition positions;
+    private TrialistController.TrialistPosition positions;
+
+    @Column(name = "inviteToken")
+    private String inviteToken;
 
     @CreationTimestamp
     private Instant creationTimestamp;
@@ -42,15 +45,24 @@ public class Trialist {
     @UpdateTimestamp
     private Instant updateTimestamp;
 
+
+
+
+    @ManyToOne
+    @JoinColumn(name = "scout_id")
+    private Scout scout;
+
     public Trialist() {
 
     }
 
 
-    public Trialist(UUID trialistId, String name, LocalDate dateOfBirth, String cellphone, TrialistPosition positions, Instant creationTimestamp, Instant updateTimestamp) {
+    public Trialist(UUID trialistId, String name, LocalDate dateOfBirth, String cellphone, String email, TrialistController.TrialistPosition positions, String document, Instant creationTimestamp, Instant updateTimestamp) {
         this.trialistId = trialistId;
         this.name = name;
+        this.document = document;
         this.dateOfBirth = dateOfBirth;
+        this.email = email;
         this.cellphone = cellphone;
         this.positions = positions;
         this.creationTimestamp = creationTimestamp;
@@ -73,6 +85,23 @@ public class Trialist {
         this.name = name;
     }
 
+    public String getDocument() {
+        return document;
+    }
+
+    public void setDocument(String document) {
+        this.document = document;
+    }
+
+    public String getInviteToken() {
+        return inviteToken;
+    }
+
+    public void setInviteToken(String inviteToken) {
+        this.inviteToken = inviteToken;
+    }
+
+
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
@@ -89,12 +118,28 @@ public class Trialist {
         this.cellphone = cellphone;
     }
 
-    public TrialistPosition getPositions() {
+    public TrialistController.TrialistPosition getPositions() {
         return positions;
     }
 
-    public void setPositions(TrialistPosition positions) {
+    public void setPositions(TrialistController.TrialistPosition positions) {
         this.positions = positions;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Scout getScout() {
+        return scout;
+    }
+
+    public void setScout(Scout scout) {
+        this.scout = scout;
     }
 
     public Instant getCreationTimestamp() {

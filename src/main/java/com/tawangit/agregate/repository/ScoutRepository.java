@@ -1,6 +1,6 @@
 package com.tawangit.agregate.repository;
 
-import com.tawangit.agregate.entity.Scout.Scout;
+import com.tawangit.agregate.entity.Scout;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

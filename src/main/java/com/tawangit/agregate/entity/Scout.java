@@ -1,4 +1,4 @@
-package com.tawangit.agregate.entity.Scout;
+package com.tawangit.agregate.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Past;
@@ -7,6 +7,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -38,6 +40,9 @@ public class Scout {
 
     @UpdateTimestamp
     private Instant updateTimestamp;
+
+    @OneToMany(mappedBy = "scout", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Trialist> trialists = new ArrayList<>();
 
     public Scout() {
     }
@@ -115,5 +120,13 @@ public class Scout {
 
     public void setUpdateTimestamp(Instant updateTimestamp) {
         this.updateTimestamp = updateTimestamp;
+    }
+
+    public List<Trialist> getTrialists() {
+        return trialists;
+    }
+
+    public void setTrialists(List<Trialist> trialists) {
+        this.trialists = trialists;
     }
 }

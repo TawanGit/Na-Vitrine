@@ -1,4 +1,4 @@
-package com.tawangit.agregate.controller;
+package com.tawangit.agregate.controller.scout;
 
 
 import com.tawangit.agregate.entity.Scout;

@@ -1,7 +1,7 @@
 package com.tawangit.agregate.service;
 
-import com.tawangit.agregate.controller.CreateScoutDto;
-import com.tawangit.agregate.controller.UpdateScoutDto;
+import com.tawangit.agregate.controller.scout.CreateScoutDto;
+import com.tawangit.agregate.controller.scout.UpdateScoutDto;
 import com.tawangit.agregate.entity.Scout;
 import com.tawangit.agregate.repository.ScoutRepository;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package com.tawangit.agregate.entity;
+package com.tawangit.agregate.entity.Scout;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Past;

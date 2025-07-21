@@ -1,4 +1,4 @@
-package com.tawangit.agregate.entity;
+package com.tawangit.agregate.entity.Trialist;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -25,13 +25,15 @@ public class Trialist {
     @Column(name = "dateOfBirth")
     private LocalDate dateOfBirth;
 
+    @Column(name = "document")
+    private String document;
+
     @Column(name = "cellphone", length = 20)
     private String cellphone;
 
-    @ElementCollection
-    @CollectionTable(name = "trialist_positions", joinColumns = @JoinColumn(name = "trialist_id"))
+
     @Column(name = "position")
-    private List<String> positions;
+    private TrialistPosition positions;
 
     @CreationTimestamp
     private Instant creationTimestamp;

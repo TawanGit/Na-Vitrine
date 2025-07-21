@@ -1,7 +1,7 @@
 package com.tawangit.agregate.controller.scout;
 
 
-import com.tawangit.agregate.entity.Scout;
+import com.tawangit.agregate.entity.Scout.Scout;
 import com.tawangit.agregate.service.ScoutService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

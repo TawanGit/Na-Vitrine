@@ -1,6 +1,7 @@
 package com.tawangit.agregate.service;
 
 import com.tawangit.agregate.controller.CreateUserDto;
+import com.tawangit.agregate.controller.UpdateUserDto;
 import com.tawangit.agregate.entity.User;
 import com.tawangit.agregate.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -44,6 +45,25 @@ public class UserService {
         if(userExists) {
             userRepository.deleteById(UUID.fromString(userId));
         }
+    }
+
+    public void updateUserById(String userId, UpdateUserDto updateUserDto) {
+        var userEntity = userRepository.findById(UUID.fromString(userId));
+
+        if(userEntity.isPresent()) {
+         var user = userEntity.get();
+
+         if(updateUserDto.username() != null) {
+             user.setUsername(updateUserDto.username());
+         }
+
+         if(updateUserDto.password() != null) {
+             user.setPassword(updateUserDto.password());
+         }
+            userRepository.save(user);
+        }
+
+
     }
 
 }

@@ -33,6 +33,7 @@ public class Trialist {
 
 
     @Column(name = "position")
+    @Enumerated(EnumType.STRING)
     private TrialistPosition positions;
 
     @CreationTimestamp
@@ -46,7 +47,7 @@ public class Trialist {
     }
 
 
-    public Trialist(UUID trialistId, String name, LocalDate dateOfBirth, String cellphone, List<String> positions, Instant creationTimestamp, Instant updateTimestamp) {
+    public Trialist(UUID trialistId, String name, LocalDate dateOfBirth, String cellphone, TrialistPosition positions, Instant creationTimestamp, Instant updateTimestamp) {
         this.trialistId = trialistId;
         this.name = name;
         this.dateOfBirth = dateOfBirth;
@@ -88,11 +89,11 @@ public class Trialist {
         this.cellphone = cellphone;
     }
 
-    public List<String> getPositions() {
+    public TrialistPosition getPositions() {
         return positions;
     }
 
-    public void setPositions(List<String> positions) {
+    public void setPositions(TrialistPosition positions) {
         this.positions = positions;
     }
 

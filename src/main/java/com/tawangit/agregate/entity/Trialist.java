@@ -1,6 +1,7 @@
 package com.tawangit.agregate.entity;
 
 import com.tawangit.agregate.controller.trialist.TrialistController;
+import com.tawangit.agregate.controller.trialist.TrialistPosition;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -34,7 +35,7 @@ public class Trialist {
 
     @Column(name = "position")
     @Enumerated(EnumType.STRING)
-    private TrialistController.TrialistPosition positions;
+    private TrialistPosition positions;
 
     @Column(name = "inviteToken")
     private String inviteToken;
@@ -57,7 +58,7 @@ public class Trialist {
     }
 
 
-    public Trialist(UUID trialistId, String name, LocalDate dateOfBirth, String cellphone, String email, TrialistController.TrialistPosition positions, String document, Instant creationTimestamp, Instant updateTimestamp) {
+    public Trialist(UUID trialistId, String name, LocalDate dateOfBirth, String cellphone, String email, TrialistPosition positions, String document, Instant creationTimestamp, Instant updateTimestamp) {
         this.trialistId = trialistId;
         this.name = name;
         this.document = document;
@@ -118,11 +119,11 @@ public class Trialist {
         this.cellphone = cellphone;
     }
 
-    public TrialistController.TrialistPosition getPositions() {
+    public TrialistPosition getPositions() {
         return positions;
     }
 
-    public void setPositions(TrialistController.TrialistPosition positions) {
+    public void setPositions(TrialistPosition positions) {
         this.positions = positions;
     }
 

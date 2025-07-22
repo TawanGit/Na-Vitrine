@@ -1,5 +1,6 @@
 package com.tawangit.agregate.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Past;
 import org.hibernate.annotations.CreationTimestamp;
@@ -42,6 +43,7 @@ public class Scout {
     private Instant updateTimestamp;
 
     @OneToMany(mappedBy = "scout", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Trialist> trialists = new ArrayList<>();
 
     public Scout() {

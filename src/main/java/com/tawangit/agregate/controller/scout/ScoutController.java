@@ -28,11 +28,14 @@ public class ScoutController {
     }
 
     @GetMapping("/{scoutId}")
-    public ResponseEntity<Scout> getScout(@PathVariable("scoutId") String scoutId) {
+    public ResponseEntity<?> getScout(@PathVariable("scoutId") String scoutId) {
+     try {
          var scout = scoutService.getScoutById(scoutId);
-        return scout.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+         return scout.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+     } catch (Exception e) {
+         return ResponseEntity.status(500).body("erro");
     }
-
+    }
     @GetMapping
     public ResponseEntity<List<Scout>> listScouts() {
         var scouts = scoutService.getScoutsList();

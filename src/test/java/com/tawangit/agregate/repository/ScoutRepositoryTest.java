@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import static  org.assertj.core.api.Assertions.assertThat;
 
@@ -34,6 +35,13 @@ class ScoutRepositoryTest {
         assertThat(result.isPresent()).isTrue();
     }
 
+    @Test
+    @DisplayName("Should not return scout by id")
+    void findScoutByIdNotFound() {
+        Optional<Scout> result = this.scoutRepository.findById(UUID.fromString("12345678-1234-1234-1234-123456789012"));
+
+        assertThat(result.isEmpty()).isTrue();
+    }
     private Scout createScout() {
         Scout newScout = new Scout();
         newScout.setScoutName("tawan");

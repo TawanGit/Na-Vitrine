@@ -1,18 +1,19 @@
 package com.tawangit.agregate.service;
 
 
-import com.tawangit.agregate.controller.trialist.InviteTrialistDto;
+import com.tawangit.agregate.controller.dtos.InviteTrialistDto;
+import com.tawangit.agregate.controller.dtos.TakeTrialistDto;
 import com.tawangit.agregate.entity.Scout;
 import com.tawangit.agregate.entity.Trialist;
 import com.tawangit.agregate.repository.ScoutRepository;
 import com.tawangit.agregate.repository.TrialistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -42,17 +43,31 @@ public class TrialistService {
 
        Scout scout = optionalScout.get();
 
-
        Trialist trialist = new Trialist();
        trialist.setEmail(email);
        trialist.setScout(scout);
        trialist.setInviteToken(UUID.randomUUID().toString());
-       trialistRepository.save(trialist);
+       scout.getTrialists().add(trialist);
 
+//       trialistRepository.save(trialist);
+       scoutRepository.save(scout);
        String inviteLink = trialist.getInviteToken();
 
        emailService.sendInviteEmail(email, inviteLink);
 
        return ResponseEntity.ok("Convite enviado por e-mail com sucesso.");
+   }
+
+   public ResponseEntity<List<Trialist>> takeTrialists(UUID scoutId) {
+       Optional<Scout> scout = scoutRepository.findById(scoutId);
+
+       if(scout.isEmpty()) {
+           throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Scout não encontrado");
+       }
+
+       List<Trialist> trialists = scout.get().getTrialists();
+
+       return ResponseEntity.ok(trialists);
+
    }
 }

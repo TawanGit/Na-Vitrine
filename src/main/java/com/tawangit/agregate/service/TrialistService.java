@@ -3,10 +3,12 @@ package com.tawangit.agregate.service;
 
 import com.tawangit.agregate.controller.dtos.InviteTrialistDto;
 import com.tawangit.agregate.controller.dtos.TakeTrialistDto;
+import com.tawangit.agregate.controller.dtos.TrialistUpdate;
 import com.tawangit.agregate.entity.Scout;
 import com.tawangit.agregate.entity.Trialist;
 import com.tawangit.agregate.repository.ScoutRepository;
 import com.tawangit.agregate.repository.TrialistRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,7 +59,24 @@ public class TrialistService {
 
        return ResponseEntity.ok("Convite enviado por e-mail com sucesso.");
    }
+   public ResponseEntity<String> updateTrialist(UUID trialistId, TrialistUpdate trialistUpdate) {
+       Optional<Trialist> optionalTrialist = trialistRepository.findById(trialistId);
 
+       if (optionalTrialist.isEmpty()) {
+           throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Trialist not found");
+       }
+
+       Trialist trialist = optionalTrialist.get();
+       trialist.setName(trialistUpdate.name());
+       trialist.setDocument(trialistUpdate.document());
+       trialist.setCellphone(trialistUpdate.cellphone());
+       trialist.setPositions(trialistUpdate.position());
+
+       trialistRepository.save(trialist);
+
+       return ResponseEntity.status(HttpStatus.OK)
+               .body("Trialist updated with success.");
+   }
    public ResponseEntity<List<Trialist>> takeTrialists(UUID scoutId) {
        Optional<Scout> scout = scoutRepository.findById(scoutId);
 

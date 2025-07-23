@@ -6,12 +6,15 @@ import com.tawangit.agregate.entity.Trialist;
 import com.tawangit.agregate.repository.TrialistRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
+import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.util.Assert;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -60,6 +63,22 @@ class TrialistServiceTest {
 
     }
 
+//    @Test
+//    void shouldNotUpdateTrialistWhenNotFound() {
+//        Trialist trialist = createTrialistForTest();
+//        var invalidDto = new TrialistUpdate(
+//                null,
+//                "",
+//                "",
+//                "",
+//                null
+//        );
+//
+//
+//            trialistService.updateTrialist(trialist.getTrialistId(), invalidDto);
+//            assertEquals("Test Trialist", trialist.getName());
+//            assertEquals("12345678901", trialist.getDocument());
+//    }
 
     @Test
     void takeTrialists() {

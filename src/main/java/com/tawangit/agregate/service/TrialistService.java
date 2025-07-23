@@ -6,6 +6,7 @@ import com.tawangit.agregate.controller.dtos.TakeTrialistDto;
 import com.tawangit.agregate.controller.dtos.TrialistUpdate;
 import com.tawangit.agregate.entity.Scout;
 import com.tawangit.agregate.entity.Trialist;
+import com.tawangit.agregate.producers.ScoutProducer;
 import com.tawangit.agregate.repository.ScoutRepository;
 import com.tawangit.agregate.repository.TrialistRepository;
 import jakarta.validation.Valid;
@@ -25,11 +26,13 @@ public class TrialistService {
     @Autowired
     private TrialistRepository trialistRepository;
 
-    @Autowired
-    private EmailService emailService;
+
 
     @Autowired
     private ScoutRepository scoutRepository;
+
+    @Autowired
+    private ScoutProducer scoutProducer;
 
    public ResponseEntity<String> invite(InviteTrialistDto inviteTrialistDto) {
        String email = inviteTrialistDto.email();
@@ -55,7 +58,7 @@ public class TrialistService {
        scoutRepository.save(scout);
        String inviteLink = trialist.getInviteToken();
 
-       emailService.sendInviteEmail(email, inviteLink);
+       scoutProducer.publishMessageEmail(email, inviteLink);
 
        return ResponseEntity.ok("Convite enviado por e-mail com sucesso.");
    }

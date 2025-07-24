@@ -34,6 +34,16 @@ jobs:
       - name: Build do projeto
         run: mvn clean package
 
+      - name: Criar pasta target no servidor (caso não exista)
+        uses: appleboy/ssh-action@v0.1.9
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            mkdir -p /home/ec2-user/app/target
+
       - name: Copiar arquivo .jar para o servidor via SCP
         uses: appleboy/scp-action@v0.1.5
         with:
@@ -42,7 +52,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           source: "target/agregate-0.0.1-SNAPSHOT.jar"
-          target: "/home/ec2-user/app/"
+          target: "/home/ec2-user/app/target/"
 
       - name: Executar comando remoto via SSH para reiniciar app
         uses: appleboy/ssh-action@v0.1.9
@@ -52,5 +62,18 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            pkill -f 'java -jar' || true
-            nohup java -jar /home/ec2-user/app/agregate-0.0.1-SNAPSHOT.jar > /home/ec2-user/app/app.log 2>&1 &
+            pkill -f agregate-0.0.1-SNAPSHOT.jar || true
+            sleep 5
+            nohup /usr/bin/java -jar /home/ec2-user/app/target/agregate-0.0.1-SNAPSHOT.jar > /home/ec2-user/app/app.log 2>&1 &
+            echo "App reiniciado"
+
+      - name: Verificar últimos logs do app
+        uses: appleboy/ssh-action@v0.1.9
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            echo "Últimas 20 linhas do log da aplicação:"
+            tail -n 20 /home/ec2-user/app/app.log

@@ -34,7 +34,7 @@ jobs:
       - name: Build do projeto
         run: mvn clean package
 
-      - name: Criar pasta target no servidor (caso não exista)
+      - name: Criar pasta app no servidor (caso não exista)
         uses: appleboy/ssh-action@v0.1.9
         with:
           host: ${{ secrets.REMOTE_HOST }}
@@ -52,7 +52,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            rm -f /home/ec2-user/app/target/agregate-0.0.1-SNAPSHOT.jar
+            rm -f /home/ec2-user/app/agregate-0.0.1-SNAPSHOT.jar
 
       - name: Copiar arquivo .jar para o servidor via SCP
         uses: appleboy/scp-action@v0.1.5
@@ -74,7 +74,7 @@ jobs:
           script: |
             pkill -f agregate-0.0.1-SNAPSHOT.jar || true
             echo "Reiniciando a aplicação..."
-            nohup java -jar /home/ec2-user/app/target/agregate-0.0.1-SNAPSHOT.jar > /home/ec2-user/app/app.log 2>&1 &
+            nohup java -jar /home/ec2-user/app/agregate-0.0.1-SNAPSHOT.jar > /home/ec2-user/app/app.log 2>&1 &
 
       - name: Verificar últimos logs do app
         uses: appleboy/ssh-action@v0.1.9

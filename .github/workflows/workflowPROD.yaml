@@ -35,8 +35,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven
 
-      - name: Rodar testes
-        run: mvn test
+#      - name: Rodar testes
+#        run: mvn test
 
       - name: Build do projeto
         run: mvn clean package

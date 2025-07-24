@@ -62,7 +62,7 @@ jobs:
             rm -rf /home/ec2-user/target
 
 
-- name: Copiar arquivo .jar para o servidor via SCP
+      - name: Copiar arquivo .jar para o servidor via SCP
         uses: appleboy/scp-action@v0.1.5
         with:
           host: ${{ secrets.REMOTE_HOST }}

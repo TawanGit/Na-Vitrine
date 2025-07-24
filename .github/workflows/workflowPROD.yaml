@@ -41,5 +41,16 @@ jobs:
           username: ${{ secrets.REMOTE_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
-          source: "target/*.jar"
+          source: "target/agregate-0.0.1-SNAPSHOT.jar"
+          target: "/home/ec2-user/app/"
 
+      - name: Executar comando remoto via SSH para reiniciar app
+        uses: appleboy/ssh-action@v0.1.9
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            pkill -f 'java -jar' || true
+            nohup java -jar /home/ec2-user/app/agregate-0.0.1-SNAPSHOT.jar > /home/ec2-user/app/app.log 2>&1 &

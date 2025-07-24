@@ -33,7 +33,7 @@ public class ScoutController {
          var scout = scoutService.getScoutById(scoutId);
          return scout.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
      } catch (Exception e) {
-         return ResponseEntity.status(500).body("erro // verificar se deu erro no banco de dados");
+         return ResponseEntity.status(500).body("Scout not found or an error occurred: " + e.getMessage());
     }
     }
     @GetMapping

@@ -36,6 +36,10 @@ public class TrialistController {
 
     @GetMapping("/{scoutId}")
     public ResponseEntity <List<Trialist>> getTrialistsByScoutId(@PathVariable UUID scoutId) {
-        return trialistService.takeTrialists(scoutId);
+        try {
+            return trialistService.takeTrialists(scoutId);
+        } catch (Exception e) {
+            return ResponseEntity.status(200).body(List.of());
+        }
     }
 }

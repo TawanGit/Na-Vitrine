@@ -44,6 +44,16 @@ jobs:
           script: |
             mkdir -p /home/ec2-user/app/target
 
+      - name: Limpar arquivo .jar antigo no servidor
+        uses: appleboy/ssh-action@v0.1.9
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            rm -f /home/ec2-user/app/target/agregate-0.0.1-SNAPSHOT.jar
+
       - name: Copiar arquivo .jar para o servidor via SCP
         uses: appleboy/scp-action@v0.1.5
         with:
@@ -74,5 +84,5 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            echo "Últimas 20 linhas do log da aplicação:"
-            tail -n 20 /home/ec2-user/app/app.log
+            echo "Últimas 50 linhas do log da aplicação:"
+            tail -n 50 /home/ec2-user/app/app.log

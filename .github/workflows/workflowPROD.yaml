@@ -62,7 +62,9 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            nohup java -jar /home/ec2-user/app/target/agregate-0.0.1-SNAPSHOT.jar  
+            pkill -f agregate-0.0.1-SNAPSHOT.jar || true
+            echo "Reiniciando a aplicação..."
+            nohup java -jar /home/ec2-user/app/target/agregate-0.0.1-SNAPSHOT.jar > /home/ec2-user/app/app.log 2>&1 &
 
       - name: Verificar últimos logs do app
         uses: appleboy/ssh-action@v0.1.9

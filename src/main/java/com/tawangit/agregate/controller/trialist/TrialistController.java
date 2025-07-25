@@ -26,7 +26,9 @@ public class TrialistController {
 
     @PostMapping("/invite")
     public ResponseEntity <String> inviteTrialist(@RequestBody InviteTrialistDto inviteTrialistDto) {
-    return trialistService.invite(inviteTrialistDto);
+
+            return trialistService.invite(inviteTrialistDto);
+
     }
 
     @PutMapping("/{trialistId}")

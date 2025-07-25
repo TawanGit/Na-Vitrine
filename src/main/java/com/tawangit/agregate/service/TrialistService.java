@@ -43,7 +43,7 @@ public class TrialistService {
        Optional<Scout> optionalScout = scoutRepository.findById(inviteTrialistDto.scoutId());
 
        if (optionalScout.isEmpty()) {
-           throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Scout não encontrado");
+           return ResponseEntity.badRequest().body("Scout não encontrado");
        }
 
        Scout scout = optionalScout.get();
